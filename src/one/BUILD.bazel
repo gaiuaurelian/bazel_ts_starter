@@ -1,0 +1,15 @@
+load("@aspect_rules_ts//ts:defs.bzl", "ts_config", "ts_project");
+
+ts_config(
+    name = "config",
+    src = "tsconfig.json",
+    visibility = [":__subpackages__"],
+)
+
+ts_project(
+    name = "one",
+    srcs = ["index.ts"],
+    declaration = True,
+    tsconfig = "//src/one:config",
+    visibility = ["//:__subpackages__"],
+)

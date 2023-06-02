@@ -1,0 +1,27 @@
+load("@aspect_rules_ts//ts:defs.bzl", "ts_config", "ts_project");
+load("@aspect_rules_js//js:defs.bzl", "js_binary")
+
+ts_config(
+    name = "config",
+    src = "tsconfig.json",
+    visibility = [":__subpackages__"],
+)
+
+ts_project(
+    name = "bundle",
+    srcs = ["index.ts"],
+    declaration = True,
+    tsconfig = "//src/compute_sum:config",
+    deps = [
+        "//src/one:one",
+        "//src/two:two",
+    ],
+    visibility = [":__subpackages__"],
+)
+
+js_binary(
+    name = "compute_sum",
+    data = ["//src/compute_sum:bundle"],
+    entry_point = "index.js",
+    visibility = [":__subpackages__"],
+)
